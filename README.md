@@ -3,6 +3,7 @@ Go Rest Countries
 
 [![Build Status](https://travis-ci.com/chriscross0/go-restcountries.svg?branch=master)](https://travis-ci.org/chriscross0/go-restcountries)
 [![Coverage Status](https://coveralls.io/repos/github/chriscross0/go-restcountries/badge.svg?branch=master)](https://coveralls.io/github/chriscross0/go-restcountries?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/chriscross0/go-restcountries)](https://goreportcard.com/report/github.com/chriscross0/go-restcountries)
 
 go-restcountries is a wrapper for the restcountries API, written in Go.
 
