@@ -1,6 +1,8 @@
 Go Rest Countries
 =================
 
+[![Build Status](https://travis-ci.org/chriscross0/go-restcountries.svg?branch=master)](https://travis-ci.org/chriscross0/go-restcountries)
+
 go-restcountries is an wrapper for the restcountries API, written in Go.
 
 ## Supported API methods
