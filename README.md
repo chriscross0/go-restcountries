@@ -35,7 +35,7 @@ func main(){
 	} else {
 		fmt.Println("Total countries: ", len(result))
 		fmt.Println("First country name: ", result[0].Name)
-		mt.Println("First country capitcal: ", result[0].Capital)
+		fmt.Println("First country capitcal: ", result[0].Capital)
 	}
 }
 
