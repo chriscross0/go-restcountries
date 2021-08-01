@@ -4,7 +4,7 @@ Go Rest Countries
 [![Build Status](https://travis-ci.com/chriscross0/go-restcountries.svg?branch=master)](https://travis-ci.org/chriscross0/go-restcountries)
 [![Coverage Status](https://coveralls.io/repos/github/chriscross0/go-restcountries/badge.svg?branch=master)](https://coveralls.io/github/chriscross0/go-restcountries?branch=master)
 
-go-restcountries is an wrapper for the restcountries API, written in Go.
+go-restcountries is a wrapper for the restcountries API, written in Go.
 
 ## Supported API methods
 
@@ -28,7 +28,7 @@ func main(){
 	client := restcountries.New()
 
 	// All with no fields filter (get all countries with all fields)
-	result, err := restcountries.All(restcountries.AllOptions{})
+	result, err := client.All(restcountries.AllOptions{})
 
 	if err != nil {
 		fmt.Println(err)
