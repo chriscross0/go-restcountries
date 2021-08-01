@@ -19,8 +19,8 @@ go-restcountries is an wrapper for the restcountries API, written in Go.
 package main
 
 import (
-    "fmt"
-		"github.com/chriscross0/go-restcountries"
+	"fmt"
+	"github.com/chriscross0/go-restcountries"
 )
 
 func main(){
@@ -35,7 +35,7 @@ func main(){
 	} else {
 		fmt.Println("Total countries: ", len(result))
 		fmt.Println("First country name: ", result[0].Name)
-		fmt.Println("First country capitcal: ", result[0].Capital)
+		mt.Println("First country capitcal: ", result[0].Capital)
 	}
 }
 
