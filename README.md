@@ -12,6 +12,7 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 
 - All - get all countries
 - Name - search countries by name, including the option of an exact or partial match
+- Capital - search countries by capital city. Uses a partial match.
 
 ## Usage
 
@@ -51,7 +52,7 @@ countries, err := client.Name(restcountries.NameOptions{
 
 fmt.Println("Total countries: ", len(countries)) // 2
 fmt.Println("First country name: ", countries[0].Name) // United States Minor Outlying Islands
-fmt.Println("First country name: ", countries[1].Name) // United States of America
+fmt.Println("Second country name: ", countries[1].Name) // United States of America
 ```
 
 ### Search countries by name - exact match
@@ -66,9 +67,33 @@ fmt.Println("Total countries: ", len(countries)) // 1
 fmt.Println("First country name: ", countries[0].Name) // United States of America
 ```
 
+### Search countries by capital city - partial match with single country found
+
+```go
+countries, err := client.Name(restcountries.NameOptions{
+	Name: "London",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // United Kingdom of Great Britain and Northern Ireland
+```
+
+### Search countries by capital city - partial match with multiple countries found
+
+```go
+countries, err := client.Name(restcountries.NameOptions{
+	Name: "Lon",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 3
+fmt.Println("First country name: ", countries[0].Name) // Malawi
+fmt.Println("Second country name: ", countries[1].Name) // Svalbard and Jan Mayen
+fmt.Println("Third country name: ", countries[2].Name) // United Kingdom of Great Britain and Northern Ireland
+```
+
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()` and `Name()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()` and `Capital()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital
