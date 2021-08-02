@@ -47,7 +47,7 @@ func main(){
 By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()` and `Name()` methods, which return a slice of countries.
 
 ```go
-// Get all countries with fields filter, to include only the country Name and Capitcal
+// Get all countries with fields filter, to include only the country Name and Capital
 countries, err := client.All(restcountries.AllOptions{
 	Fields: []string{"Name", "Capital"},
 })
