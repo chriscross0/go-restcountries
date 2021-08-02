@@ -46,25 +46,25 @@ func main(){
 ### Search countries by name - partial match
 
 ```go
-	countries, err := client.Name(restcountries.NameOptions{
-	 	Name: "United States",
-	})
+countries, err := client.Name(restcountries.NameOptions{
+	Name: "United States",
+})
 
-	fmt.Println("Total countries: ", len(countries)) // 2
-	fmt.Println("First country name: ", countries[0].Name) // United States Minor Outlying Islands
-	fmt.Println("First country name: ", countries[1].Name) // United States of America
+fmt.Println("Total countries: ", len(countries)) // 2
+fmt.Println("First country name: ", countries[0].Name) // United States Minor Outlying Islands
+fmt.Println("First country name: ", countries[1].Name) // United States of America
 ```
 
 ### Search countries by name - exact match
 
 ```go
-	countries, err := client.Name(restcountries.NameOptions{
-	 	Name: "United States of America",
-	 	FullText: true,
-	})
+countries, err := client.Name(restcountries.NameOptions{
+	Name: "United States of America",
+	FullText: true, // true turns exact match on
+})
 
-	fmt.Println("Total countries: ", len(countries)) // 1
-	fmt.Println("First country name: ", countries[0].Name) // United States of America
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // United States of America
 ```
 
 ### Fields Filtering
