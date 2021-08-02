@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Takes a url and http client (for mock testing) and makes a GET request, returning the response text and error
+// getUrlContent takes a url and http client (for mock testing) and makes a GET request, returning the response text and error
 func getUrlContent(url string, myClient httpClient) (string, error) {
 	req, _ := http.NewRequest("GET", url, nil)
 
