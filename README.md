@@ -95,7 +95,7 @@ fmt.Println("Third country name: ", countries[2].Name) // United Kingdom of Grea
 ### Search countries by currency code - exact match with single country found
 
 ```go
-countries, err := client.Currency(restcountries.NameOptions{
+countries, err := client.Currency(restcountries.CurrencyOptions{
 	Currency: "IDR",
 })
 
@@ -117,7 +117,7 @@ fmt.Println("Second country name: ", countries[1].Name) // Singapore
 
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()` and `Capital()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()` and `Currency()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital
