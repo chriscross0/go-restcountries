@@ -101,7 +101,6 @@ func (r *RestCountries) SetApiRoot(url string) {
 	r.apiRoot = url
 }
 
-
 // All method returns all countries
 // The optional AllOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) All(options AllOptions) ([]Country, error) {
