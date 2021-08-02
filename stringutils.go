@@ -4,7 +4,7 @@ import (
 	"unicode"
 )
 
-// lowercase the first character
+// Lowercase the first character
 func lCFirst(s string) string {
 	if len(s) == 0 {
 		return s
@@ -15,7 +15,8 @@ func lCFirst(s string) string {
 	return string(r)
 }
 
-// takes a slice of strings and returns a semicolon delimited string e.g. name,capital -> name;capital;
+// Takes a slice of strings and returns a semicolon delimited string e.g. name,capital -> name;capital;
+// Used when filtering fields with the Fields option
 func processFields(fields []string) string {
 	out := ""
 	for _, field := range fields {

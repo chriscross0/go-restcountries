@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+// Represents a Country from the API
+// A slice of Country is returned by the methods which return countries, e.g. All and Name
 type Country struct {
 	Name           string    `json:"name"`
 	TopLevelDomain []string  `json:"topLevelDomain"`
@@ -65,34 +67,43 @@ type apiError struct {
 	Message string `json:"message"`
 }
 
+// Represents an app/client using the API
 type RestCountries struct {
 	apiRoot string
 }
 
-type HttpClient interface {
+// Used for mocking the http client
+type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
+// Options for the All() method
 type AllOptions struct {
 	Fields []string
 }
 
+// Options for the Name() method
 type NameOptions struct {
 	Name     string
 	FullText bool
 	Fields   []string
 }
 
+// Creates and returns a new instance of the client
 func New() *RestCountries {
 	return &RestCountries{
 		apiRoot: "https://restcountries.eu/rest/v2",
 	}
 }
 
+// Override the API root url - used for unit testing
 func (r *RestCountries) SetApiRoot(url string) {
 	r.apiRoot = url
 }
 
+
+// The All method returns all countries
+// The optional AllOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 
 	fields := processFields(options.Fields)
@@ -125,6 +136,9 @@ func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 	return countries, nil
 }
 
+// The Name method searches countries by name
+// The optional NameOptions.FullText boolean when true, will search for an exact match. Otherwise, partial matches are returned
+// The optional NameOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 
 	fields := processFields(options.Fields)
