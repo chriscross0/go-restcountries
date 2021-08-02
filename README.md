@@ -13,7 +13,8 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 - All - get all countries
 - Name - search countries by name, including the option of an exact or partial match
 - Capital - search countries by capital city. Uses a partial match.
-- Currency - search countries by currency code. Uses an exact match.
+- Currency - search countries by ISO 4217 currency code. Uses an exact match.
+- Language - search countries by ISO 639-1 language code. Uses an exact match.
 
 ## Usage
 
@@ -115,9 +116,32 @@ fmt.Println("First country name: ", countries[0].Name) // Brunei Darussalam
 fmt.Println("Second country name: ", countries[1].Name) // Singapore
 ```
 
+### Search countries by language code - exact match with single country found
+
+```go
+countries, err := client.Language(restcountries.LanguageOptions{
+	Language: "TG",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // Tajikistan
+```
+
+### Search countries by language code - exact match with multiple countries found
+
+```go
+countries, err := client.Language(restcountries.LanguageOptions{
+	Language: "FF",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 2
+fmt.Println("First country name: ", countries[0].Name) // Burkina Faso
+fmt.Println("Second country name: ", countries[1].Name) // Guinea
+```
+
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()` and `Currency()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()` and `Language()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital
