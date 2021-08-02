@@ -17,8 +17,6 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 ### Get all countries
 
 ```go
-
-
 package main
 
 import (
@@ -37,7 +35,7 @@ func main(){
 	} else {
 		fmt.Println("Total countries: ", len(countries)) // 250
 		fmt.Println("First country name: ", countries[0].Name) // Afghanistan
-		fmt.Println("First country capitcal: ", countries[0].Capital) // Kabul
+		fmt.Println("First country capital: ", countries[0].Capital) // Kabul
 	}
 }
 
@@ -87,8 +85,6 @@ fmt.Println(countries[0].Region) // empty because this field was not requested
 All fields in the v2 restcountries APi are supported. Below is the Country type:
 
 ```go
-
-
 type Country struct {
 	Name           string    `json:"name"`
 	TopLevelDomain []string  `json:"topLevelDomain"`
