@@ -13,6 +13,7 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 - All - get all countries
 - Name - search countries by name, including the option of an exact or partial match
 - Capital - search countries by capital city. Uses a partial match.
+- Currency - search countries by currency code. Uses an exact match.
 
 ## Usage
 
@@ -70,7 +71,7 @@ fmt.Println("First country name: ", countries[0].Name) // United States of Ameri
 ### Search countries by capital city - partial match with single country found
 
 ```go
-countries, err := client.Name(restcountries.NameOptions{
+countries, err := client.Capital(restcountries.CapitalOptions{
 	Name: "London",
 })
 
@@ -81,7 +82,7 @@ fmt.Println("First country name: ", countries[0].Name) // United Kingdom of Grea
 ### Search countries by capital city - partial match with multiple countries found
 
 ```go
-countries, err := client.Name(restcountries.NameOptions{
+countries, err := client.Capital(restcountries.CapitalOptions{
 	Name: "Lon",
 })
 
@@ -89,6 +90,29 @@ fmt.Println("Total countries: ", len(countries)) // 3
 fmt.Println("First country name: ", countries[0].Name) // Malawi
 fmt.Println("Second country name: ", countries[1].Name) // Svalbard and Jan Mayen
 fmt.Println("Third country name: ", countries[2].Name) // United Kingdom of Great Britain and Northern Ireland
+```
+
+### Search countries by currency code - exact match with single country found
+
+```go
+countries, err := client.Currency(restcountries.NameOptions{
+	Currency: "IDR",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // Indonesia
+```
+
+### Search countries by currency code - exact match with multiple countries found
+
+```go
+countries, err := client.Capital(restcountries.CurrencyOptions{
+	Currency: "SGD",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 2
+fmt.Println("First country name: ", countries[0].Name) // Brunei Darussalam
+fmt.Println("Second country name: ", countries[1].Name) // Singapore
 ```
 
 ### Fields Filtering

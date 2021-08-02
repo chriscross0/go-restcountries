@@ -95,6 +95,12 @@ type CapitalOptions struct {
 	Fields  []string
 }
 
+// CurrencyOptions represents options for the Currency() method
+type CurrencyOptions struct {
+	Currency string
+	Fields   []string
+}
+
 // New creates and returns a new instance of the client
 func New() *RestCountries {
 	return &RestCountries{
@@ -186,7 +192,7 @@ func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 }
 
 // Capital method searches countries by capital city using a partial match
-// The optional NameOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
+// The optional CapitalOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 
 	fields := processFields(options.Fields)
@@ -217,6 +223,47 @@ func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 		}
 
 		if basicResponse.Status == 404 {
+			return countries, nil
+		}
+		return nil, errors.New(basicResponse.Message)
+
+	}
+
+	return countries, nil
+}
+
+// Currency method searches countries by currency code using an exact match
+// The optional CurrencyOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
+func (r *RestCountries) Currency(options CurrencyOptions) ([]Country, error) {
+
+	fields := processFields(options.Fields)
+
+	base, _ := url.Parse(r.apiRoot)
+
+	base.Path += "/currency/" + options.Currency // this encodes the user input properly with %20 for space and others
+
+	params := url.Values{}
+	params.Add("fields", fields)
+	base.RawQuery = params.Encode()
+
+	var myClient = &http.Client{Timeout: 10 * time.Second}
+	content, err := getUrlContent(base.String(), myClient)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var countries []Country
+	decodeErr := json.Unmarshal([]byte(content), &countries)
+	if decodeErr != nil {
+
+		var basicResponse apiError
+		basicResponseErr := json.Unmarshal([]byte(content), &basicResponse)
+		if basicResponseErr != nil {
+			return nil, decodeErr
+		}
+
+		if basicResponse.Status == 404 || basicResponse.Status == 400 {
 			return countries, nil
 		}
 		return nil, errors.New(basicResponse.Message)
