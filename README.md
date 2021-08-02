@@ -9,10 +9,12 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 
 ## Supported API methods
 
-- All
-- Name
+- All - get all countries
+- Name - search countries by name, including the option of an exact or partial match
 
 ## Usage
+
+### Get all countries
 
 ```go
 
@@ -41,7 +43,31 @@ func main(){
 
 ```
 
-## Fields Filtering
+### Search countries by name - partial match
+
+```go
+	countries, err := client.Name(restcountries.NameOptions{
+	 	Name: "United States",
+	})
+
+	fmt.Println("Total countries: ", len(countries)) // 2
+	fmt.Println("First country name: ", countries[0].Name) // United States Minor Outlying Islands
+	fmt.Println("First country name: ", countries[1].Name) // United States of America
+```
+
+### Search countries by name - exact match
+
+```go
+	countries, err := client.Name(restcountries.NameOptions{
+	 	Name: "United States of America",
+	 	FullText: true,
+	})
+
+	fmt.Println("Total countries: ", len(countries)) // 1
+	fmt.Println("First country name: ", countries[0].Name) // United States of America
+```
+
+### Fields Filtering
 
 By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()` and `Name()` methods, which return a slice of countries.
 
