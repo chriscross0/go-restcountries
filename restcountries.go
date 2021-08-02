@@ -126,9 +126,8 @@ func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 
 		if basicResponse.Status == 404 {
 			return countries, nil
-		} else {
-			return nil, errors.New(basicResponse.Message)
 		}
+		return nil, errors.New(basicResponse.Message)
 
 	}
 
@@ -172,9 +171,8 @@ func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 
 		if basicResponse.Status == 404 {
 			return countries, nil
-		} else {
-			return nil, errors.New(basicResponse.Message)
 		}
+		return nil, errors.New(basicResponse.Message)
 
 	}
 
