@@ -29,17 +29,32 @@ func main(){
 	client := restcountries.New()
 
 	// All with no fields filter (get all countries with all fields)
-	result, err := client.All(restcountries.AllOptions{})
+	countries, err := client.All(restcountries.AllOptions{})
 
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println("Total countries: ", len(result))
-		fmt.Println("First country name: ", result[0].Name)
-		fmt.Println("First country capitcal: ", result[0].Capital)
+		fmt.Println("Total countries: ", len(countries)) // 250
+		fmt.Println("First country name: ", countries[0].Name) // Afghanistan
+		fmt.Println("First country capitcal: ", countries[0].Capital) // Kabul
 	}
 }
 
+```
+
+## Fields Filtering
+
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()` and `Name()` methods, which return a slice of countries.
+
+```go
+// Get all countries with fields filter, to include only the country Name and Capitcal
+countries, err := client.All(restcountries.AllOptions{
+	Fields: []string{"Name", "Capital"},
+})
+
+fmt.Println(countries[0].Name) // Afghanistan
+fmt.Println(countries[0].Capital) // Kabul
+fmt.Println(countries[0].Region) // empty because this field was not requested
 ```
 
 ## Supported Fields
