@@ -154,7 +154,7 @@ fmt.Println("Second country name: ", countries[1].Name) // Australia
 
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()` and `Language()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()`, `Language()` and `Region()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital
