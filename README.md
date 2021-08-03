@@ -17,6 +17,7 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 - Language - search countries by ISO 639-1 language code. Uses an exact match.
 - Region - search countries by region: Africa, Americas, Asia, Europe, Oceania. Uses an exact match.
 - RegionalBloc - search countries by regional bloc: EU, EFTA, CARICOM, PA etc. Uses an exact match.
+- CallingCode - search countries by calling code. Uses an exact match.
 
 ## Usage
 
@@ -165,9 +166,32 @@ fmt.Println("First country name: ", countries[0].Name) // Chile
 fmt.Println("Second country name: ", countries[1].Name) // Colombia
 ```
 
+# Search countries by calling code - exact match with single country found
+
+```go
+countries, err := client.CallingCode(restcountries.CallingCodeOptions{
+	CallingCode: "372",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // Estonia
+```
+
+### Search countries by calling code - exact match with multiple countries found
+
+```go
+countries, err := client.CallingCode(restcountries.CallingCodeOptions{
+	CallingCode: "44",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 4
+fmt.Println("First country name: ", countries[0].Name) // Guernsey
+fmt.Println("Second country name: ", countries[1].Name) // Isle of Man
+```
+
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()`, `Language()`, `Region()` and `RegionalBloc()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()`, `Language()`, `Region()`, `RegionalBloc()` and `CallingCode()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital
