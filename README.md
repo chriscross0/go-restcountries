@@ -18,6 +18,7 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 - Region - search countries by region: Africa, Americas, Asia, Europe, Oceania. Uses an exact match.
 - RegionalBloc - search countries by regional bloc: EU, EFTA, CARICOM, PA etc. Uses an exact match.
 - CallingCode - search countries by calling code. Uses an exact match.
+- Code/List of Codes (method name is Codes) - search countries by ISO 3166-1 2-letter or 3-letter country codes. Uses an exact match.
 
 ## Usage
 
@@ -189,9 +190,32 @@ fmt.Println("First country name: ", countries[0].Name) // Guernsey
 fmt.Println("Second country name: ", countries[1].Name) // Isle of Man
 ```
 
+### Search countries by country code - exact match with single country found
+
+```go
+countries, err := client.Codes(restcountries.CodesOptions{
+	Codes: []string{"CO"}, // single code
+})
+
+fmt.Println("Total countries: ", len(countries)) // 1
+fmt.Println("First country name: ", countries[0].Name) // Colombia
+```
+
+### Search countries by country code - exact match with multiple countries found
+
+```go
+countries, err := client.Codes(restcountries.CodesOptions{
+	Codes: []string{"CO", "GB"}, // multiple codes
+})
+
+fmt.Println("Total countries: ", len(countries)) // 2
+fmt.Println("First country name: ", countries[0].Name) // Colombia
+fmt.Println("Second country name: ", countries[1].Name) // United Kingdom of Great Britain and Northern Ireland
+```
+
 ### Fields Filtering
 
-By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()`, `Language()`, `Region()`, `RegionalBloc()` and `CallingCode()` methods, which return a slice of countries.
+By default, all fields are returned from the API and populated to the Country type. Below is how to specify a whitelist of fields you would like and all others will not be returned. The `Fields` property is supported on the `All()`, `Name()`, `Capital()`, `Currency()`, `Language()`, `Region()`, `RegionalBloc()`, `CallingCode()` and `Codes()` methods, which return a slice of countries.
 
 ```go
 // Get all countries with fields filter, to include only the country Name and Capital

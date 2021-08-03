@@ -125,6 +125,12 @@ type CallingCodeOptions struct {
 	Fields      []string
 }
 
+// CodesOptions represents options for the CodesOptions() method
+type CodesOptions struct {
+	Codes  []string
+	Fields []string
+}
+
 // New creates and returns a new instance of the client
 func New() *RestCountries {
 	return &RestCountries{
@@ -480,6 +486,54 @@ func (r *RestCountries) CallingCode(options CallingCodeOptions) ([]Country, erro
 		}
 
 		if basicResponse.Status == 404 {
+			return countries, nil
+		}
+		return nil, errors.New(basicResponse.Message)
+
+	}
+
+	return countries, nil
+}
+
+// Codes method searches countries by country codes using an exact match
+// The optional CodesOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
+func (r *RestCountries) Codes(options CodesOptions) ([]Country, error) {
+
+	if len(options.Codes) == 0 {
+		return nil, errors.New("Search term is empty")
+	}
+
+	fields := processFields(options.Fields)
+	codes := processCodes(options.Codes)
+
+	base, _ := url.Parse(r.apiRoot)
+
+	base.Path += "/alpha/"
+
+	params := url.Values{}
+	params.Add("fields", fields)
+	params.Add("codes", codes)
+	base.RawQuery = params.Encode()
+
+	var myClient = &http.Client{Timeout: 10 * time.Second}
+	content, err := getUrlContent(base.String(), myClient)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var countries []Country
+	decodeErr := json.Unmarshal([]byte(content), &countries)
+	if decodeErr != nil {
+
+		var basicResponse apiError
+		basicResponseErr := json.Unmarshal([]byte(content), &basicResponse)
+		if basicResponseErr != nil {
+			return nil, decodeErr
+		}
+
+		// the api returns a 400 for a single code which doesn't match a country, or a 500 for a list of codes where one or more do not match
+		if basicResponse.Status == 404 || basicResponse.Status == 400 || basicResponse.Status == 500 {
 			return countries, nil
 		}
 		return nil, errors.New(basicResponse.Message)
