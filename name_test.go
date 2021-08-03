@@ -57,6 +57,15 @@ func TestName(t *testing.T) {
 		checkTypeAndEmpty string
 	}{
 		{
+			// empty search term
+			input: NameOptions{
+				Fields: []string{"Name", "Capital"},
+				Name:   "",
+			},
+			response: ``,
+			wantErr:  `Search term is empty`,
+		},
+		{
 			// not found
 			input: NameOptions{
 				Fields: []string{"Name", "Capital"},

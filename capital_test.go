@@ -57,6 +57,15 @@ func TestCapital(t *testing.T) {
 		checkTypeAndEmpty string
 	}{
 		{
+			// empty search term
+			input: CapitalOptions{
+				Fields:  []string{"Name", "Capital"},
+				Capital: "",
+			},
+			response: ``,
+			wantErr:  `Search term is empty`,
+		},
+		{
 			// not found
 			input: CapitalOptions{
 				Fields:  []string{"Name", "Capital"},

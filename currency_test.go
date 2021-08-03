@@ -57,6 +57,15 @@ func TestCurrency(t *testing.T) {
 		checkTypeAndEmpty string
 	}{
 		{
+			// empty search term
+			input: CurrencyOptions{
+				Fields:   []string{"Name", "Capital"},
+				Currency: "",
+			},
+			response: ``,
+			wantErr:  `Search term is empty`,
+		},
+		{
 			// not found
 			input: CurrencyOptions{
 				Fields:   []string{"Name", "Capital"},

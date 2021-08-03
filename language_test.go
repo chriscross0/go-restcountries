@@ -57,6 +57,15 @@ func TestLanguage(t *testing.T) {
 		checkTypeAndEmpty string
 	}{
 		{
+			// empty search term
+			input: LanguageOptions{
+				Fields:   []string{"Name", "Capital"},
+				Language: "",
+			},
+			response: ``,
+			wantErr:  `Search term is empty`,
+		},
+		{
 			// not found
 			input: LanguageOptions{
 				Fields:   []string{"Name", "Capital"},

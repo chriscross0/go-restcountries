@@ -157,6 +157,10 @@ func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 // The optional NameOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 
+	if options.Name == "" {
+		return nil, errors.New("Search term is empty")
+	}
+
 	fields := processFields(options.Fields)
 
 	base, _ := url.Parse(r.apiRoot)
@@ -201,6 +205,10 @@ func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 // The optional CapitalOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 
+	if options.Capital == "" {
+		return nil, errors.New("Search term is empty")
+	}
+
 	fields := processFields(options.Fields)
 
 	base, _ := url.Parse(r.apiRoot)
@@ -242,6 +250,10 @@ func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 // The optional CurrencyOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Currency(options CurrencyOptions) ([]Country, error) {
 
+	if options.Currency == "" {
+		return nil, errors.New("Search term is empty")
+	}
+
 	fields := processFields(options.Fields)
 
 	base, _ := url.Parse(r.apiRoot)
@@ -282,6 +294,10 @@ func (r *RestCountries) Currency(options CurrencyOptions) ([]Country, error) {
 // Language method searches countries by language code using an exact match
 // The optional LanguageOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) Language(options LanguageOptions) ([]Country, error) {
+
+	if options.Language == "" {
+		return nil, errors.New("Search term is empty")
+	}
 
 	fields := processFields(options.Fields)
 
