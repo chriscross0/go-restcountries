@@ -107,6 +107,12 @@ type LanguageOptions struct {
 	Fields   []string
 }
 
+// RegionOptions represents options for the Region() method
+type RegionOptions struct {
+	Region string
+	Fields []string
+}
+
 // New creates and returns a new instance of the client
 func New() *RestCountries {
 	return &RestCountries{
@@ -304,6 +310,51 @@ func (r *RestCountries) Language(options LanguageOptions) ([]Country, error) {
 	base, _ := url.Parse(r.apiRoot)
 
 	base.Path += "/lang/" + options.Language // this encodes the user input properly with %20 for space and others
+
+	params := url.Values{}
+	params.Add("fields", fields)
+	base.RawQuery = params.Encode()
+
+	var myClient = &http.Client{Timeout: 10 * time.Second}
+	content, err := getUrlContent(base.String(), myClient)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var countries []Country
+	decodeErr := json.Unmarshal([]byte(content), &countries)
+	if decodeErr != nil {
+
+		var basicResponse apiError
+		basicResponseErr := json.Unmarshal([]byte(content), &basicResponse)
+		if basicResponseErr != nil {
+			return nil, decodeErr
+		}
+
+		if basicResponse.Status == 404 {
+			return countries, nil
+		}
+		return nil, errors.New(basicResponse.Message)
+
+	}
+
+	return countries, nil
+}
+
+// Region method searches countries by region using an exact match
+// The optional RegionOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
+func (r *RestCountries) Region(options RegionOptions) ([]Country, error) {
+
+	if options.Region == "" {
+		return nil, errors.New("Search term is empty")
+	}
+
+	fields := processFields(options.Fields)
+
+	base, _ := url.Parse(r.apiRoot)
+
+	base.Path += "/region/" + options.Region // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
 	params.Add("fields", fields)

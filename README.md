@@ -15,6 +15,7 @@ go-restcountries is a wrapper for the [REST Countries API](https://restcountries
 - Capital - search countries by capital city. Uses a partial match.
 - Currency - search countries by ISO 4217 currency code. Uses an exact match.
 - Language - search countries by ISO 639-1 language code. Uses an exact match.
+- Region - search countries by region: Africa, Americas, Asia, Europe, Oceania. Uses an exact match.
 
 ## Usage
 
@@ -137,6 +138,18 @@ countries, err := client.Language(restcountries.LanguageOptions{
 fmt.Println("Total countries: ", len(countries)) // 2
 fmt.Println("First country name: ", countries[0].Name) // Burkina Faso
 fmt.Println("Second country name: ", countries[1].Name) // Guinea
+```
+
+### Search countries by region - exact match with multiple countries found
+
+```go
+countries, err := client.Region(restcountries.RegionOptions{
+	Region: "Oceania",
+})
+
+fmt.Println("Total countries: ", len(countries)) // 27
+fmt.Println("First country name: ", countries[0].Name) // American Samoa
+fmt.Println("Second country name: ", countries[1].Name) // Australia
 ```
 
 ### Fields Filtering
