@@ -166,7 +166,7 @@ fmt.Println("First country name: ", countries[0].Name) // Chile
 fmt.Println("Second country name: ", countries[1].Name) // Colombia
 ```
 
-# Search countries by calling code - exact match with single country found
+### Search countries by calling code - exact match with single country found
 
 ```go
 countries, err := client.CallingCode(restcountries.CallingCodeOptions{
