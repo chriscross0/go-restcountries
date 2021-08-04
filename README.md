@@ -8,10 +8,10 @@ Go REST Countries
 
 go-restcountries is a wrapper for the [REST Countries API](https://restcountries.eu/), written in Go. The latest (v2) version of the API is used.
 
-## Supported API methods
+## Supported API methods (all methods of the v2 API are supported)
 
-- All - get all countries
-- Name - search countries by name, including the option of an exact or partial match
+- All - get all countries.
+- Name - search countries by name, including the option of an exact or partial match.
 - Capital - search countries by capital city. Uses a partial match.
 - Currency - search countries by ISO 4217 currency code. Uses an exact match.
 - Language - search countries by ISO 639-1 language code. Uses an exact match.
