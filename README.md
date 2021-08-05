@@ -236,7 +236,7 @@ The default timeout for the HTTP client is `0` (meaning no timeout). Use `SetTim
 
 ```go
 client := restcountries.New()
-client.SetTimeout(10 * time.Duration)
+client.SetTimeout(10 * time.Second) // 10 seconds
 ```
 
 ## Supported Fields
