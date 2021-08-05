@@ -232,7 +232,7 @@ fmt.Println(countries[0].Region) // empty because this field was not requested
 
 ### `SetTimeout()`
 
-The default timeout for the HTTP client is `0` (meaning no timeout). Use `SetTimeout()` to override the default timeout, using a time.Duration.
+The default timeout for the HTTP client is `0` (meaning no timeout). Use `SetTimeout()` to override the default timeout, using a [`time.Duration`](https://pkg.go.dev/time#Duration).
 
 ```go
 client := restcountries.New()
