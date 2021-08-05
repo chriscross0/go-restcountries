@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestAllSimple(t *testing.T) {
@@ -16,6 +17,7 @@ func TestAllSimple(t *testing.T) {
 	}))
 	defer server.Close()
 	testClient.SetApiRoot(server.URL)
+	testClient.SetTimeout(10 * time.Second)
 
 	result, _ := testClient.All(AllOptions{
 		Fields: []string{"Name", "Capital"},

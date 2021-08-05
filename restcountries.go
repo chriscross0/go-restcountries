@@ -70,6 +70,7 @@ type apiError struct {
 // RestCountries represents an app/client using the API
 type RestCountries struct {
 	apiRoot string
+	timeout time.Duration
 }
 
 // httpClient is used for mocking the http client
@@ -135,6 +136,7 @@ type CodesOptions struct {
 func New() *RestCountries {
 	return &RestCountries{
 		apiRoot: "https://restcountries.eu/rest/v2",
+		timeout: 0,
 	}
 }
 
@@ -143,13 +145,18 @@ func (r *RestCountries) SetApiRoot(url string) {
 	r.apiRoot = url
 }
 
+// SetTimeout overrides the HTTP clent timeout
+func (r *RestCountries) SetTimeout(timeout time.Duration) {
+	r.timeout = timeout
+}
+
 // All method returns all countries
 // The optional AllOptions.Fields allows filtering fields by specifying the fields you want, instead of all fields
 func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 
 	fields := processFields(options.Fields)
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(r.apiRoot+"/all?fields="+url.QueryEscape(fields), myClient)
 
 	if err != nil {
@@ -198,7 +205,7 @@ func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 	}
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -243,7 +250,7 @@ func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -288,7 +295,7 @@ func (r *RestCountries) Currency(options CurrencyOptions) ([]Country, error) {
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -333,7 +340,7 @@ func (r *RestCountries) Language(options LanguageOptions) ([]Country, error) {
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -378,7 +385,7 @@ func (r *RestCountries) Region(options RegionOptions) ([]Country, error) {
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -423,7 +430,7 @@ func (r *RestCountries) RegionalBloc(options RegionalBlocOptions) ([]Country, er
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -468,7 +475,7 @@ func (r *RestCountries) CallingCode(options CallingCodeOptions) ([]Country, erro
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {
@@ -515,7 +522,7 @@ func (r *RestCountries) Codes(options CodesOptions) ([]Country, error) {
 	params.Add("codes", codes)
 	base.RawQuery = params.Encode()
 
-	var myClient = &http.Client{Timeout: 10 * time.Second}
+	var myClient = &http.Client{Timeout: r.timeout}
 	content, err := getUrlContent(base.String(), myClient)
 
 	if err != nil {

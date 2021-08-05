@@ -228,6 +228,16 @@ fmt.Println(countries[0].Capital) // Kabul
 fmt.Println(countries[0].Region) // empty because this field was not requested
 ```
 
+## Configuration
+
+### `SetTimeout()`: the default timeout for the HTTP client is `0` meaning no timeout. Use `SetTimeout()` to override the default timeout, using a time.Duration.
+
+```go
+	client := restcountries.New()
+	client.SetTimeout(10 * time.Duration)
+	...
+```
+
 ## Supported Fields
 
 All fields in the v2 restcountries APi are supported. Below is the Country type:
