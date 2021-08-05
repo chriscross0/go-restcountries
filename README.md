@@ -239,6 +239,16 @@ client := restcountries.New()
 client.SetTimeout(10 * time.Second) // 10 seconds
 ```
 
+### `SetApiRoot()`
+
+The default API root is `https://restcountries.eu/rest/v2`. Use `SetApiRoot()` to override the root URL.
+
+```go
+client := restcountries.New()
+client.SetApiRoot("https://crosscode.co.uk/rest/v2")
+```
+
+
 ## Supported Fields
 
 All fields in the v2 restcountries APi are supported. Below is the Country type:
