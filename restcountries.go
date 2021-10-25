@@ -71,6 +71,7 @@ type apiError struct {
 type RestCountries struct {
 	apiRoot string
 	timeout time.Duration
+	apiKey  string
 }
 
 // httpClient is used for mocking the http client
@@ -133,10 +134,11 @@ type CodesOptions struct {
 }
 
 // New creates and returns a new instance of the client
-func New() *RestCountries {
+func New(apiKey string) *RestCountries {
 	return &RestCountries{
-		apiRoot: "https://restcountries.eu/rest/v2",
+		apiRoot: "https://api.countrylayer.com/v2",
 		timeout: 0,
+		apiKey:  apiKey,
 	}
 }
 
@@ -157,7 +159,7 @@ func (r *RestCountries) All(options AllOptions) ([]Country, error) {
 	fields := processFields(options.Fields)
 
 	var myClient = &http.Client{Timeout: r.timeout}
-	content, err := getUrlContent(r.apiRoot+"/all?fields="+url.QueryEscape(fields), myClient)
+	content, err := getUrlContent(r.apiRoot+"/all?access_key="+url.QueryEscape(r.apiKey)+"&fields="+url.QueryEscape(fields), myClient)
 
 	if err != nil {
 		return nil, err
@@ -199,6 +201,7 @@ func (r *RestCountries) Name(options NameOptions) ([]Country, error) {
 	base.Path += "/name/" + options.Name // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	if options.FullText {
 		params.Add("fullText", "true")
@@ -247,6 +250,7 @@ func (r *RestCountries) Capital(options CapitalOptions) ([]Country, error) {
 	base.Path += "/capital/" + options.Capital // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -292,6 +296,7 @@ func (r *RestCountries) Currency(options CurrencyOptions) ([]Country, error) {
 	base.Path += "/currency/" + options.Currency // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -337,6 +342,7 @@ func (r *RestCountries) Language(options LanguageOptions) ([]Country, error) {
 	base.Path += "/lang/" + options.Language // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -382,6 +388,7 @@ func (r *RestCountries) Region(options RegionOptions) ([]Country, error) {
 	base.Path += "/region/" + options.Region // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -427,6 +434,7 @@ func (r *RestCountries) RegionalBloc(options RegionalBlocOptions) ([]Country, er
 	base.Path += "/regionalbloc/" + options.RegionalBloc // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -472,6 +480,7 @@ func (r *RestCountries) CallingCode(options CallingCodeOptions) ([]Country, erro
 	base.Path += "/callingcode/" + options.CallingCode // this encodes the user input properly with %20 for space and others
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	base.RawQuery = params.Encode()
 
@@ -518,6 +527,7 @@ func (r *RestCountries) Codes(options CodesOptions) ([]Country, error) {
 	base.Path += "/alpha/"
 
 	params := url.Values{}
+	params.Add("access_key", r.apiKey)
 	params.Add("fields", fields)
 	params.Add("codes", codes)
 	base.RawQuery = params.Encode()

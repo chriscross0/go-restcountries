@@ -9,7 +9,7 @@ import (
 )
 
 func TestCallingCodeSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"Estonia", "capital": "Tallinn"}]`)
@@ -31,7 +31,7 @@ func TestCallingCodeSimple(t *testing.T) {
 }
 
 func TestCallingCodeErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestCallingCodeErrorUrl(t *testing.T) {
 		CallingCode: "372",
 	})
 
-	wantErr := `Get "not%20a%20url/callingcode/372?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/callingcode/372?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestCallingCodeErrorUrl(t *testing.T) {
 }
 
 func TestCallingCode(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             CallingCodeOptions

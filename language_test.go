@@ -9,7 +9,7 @@ import (
 )
 
 func TestLanguageSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"American Samoa", "capital": "Pago Pago"}]`)
@@ -31,7 +31,7 @@ func TestLanguageSimple(t *testing.T) {
 }
 
 func TestLanguageErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestLanguageErrorUrl(t *testing.T) {
 		Language: "EN",
 	})
 
-	wantErr := `Get "not%20a%20url/lang/EN?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/lang/EN?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestLanguageErrorUrl(t *testing.T) {
 }
 
 func TestLanguage(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             LanguageOptions

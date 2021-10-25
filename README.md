@@ -6,7 +6,9 @@ Go REST Countries
 [![Coverage Status](https://coveralls.io/repos/github/chriscross0/go-restcountries/badge.svg?branch=master)](https://coveralls.io/github/chriscross0/go-restcountries?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/chriscross0/go-restcountries)](https://goreportcard.com/report/github.com/chriscross0/go-restcountries)
 
-go-restcountries is a wrapper for the [REST Countries API](https://restcountries.eu/), written in Go. The latest (v2) version of the API is used.
+go-restcountries is a wrapper for the [Countrylayer REST Countries API](https://countrylayer.com/) (formerly restcountries.eu), written in Go. The latest (v2) version of the API is used.
+
+Note: the original free REST Countries API provided by restcountries.eu is now the Countrylayer API, hosted at countrylayer.com which requires an API key. Go REST Countries v2 fully supports the Countrylayer API.
 
 ## Supported API methods (all methods of the v2 API are supported)
 
@@ -33,7 +35,8 @@ import (
 )
 
 func main(){
-	client := restcountries.New()
+	client := restcountries.New("YOUR_API_KEY")
+	client.SetApiRoot("http://api.countrylayer.com/v2") // if you are on the free plan, override the URL to use http because https is only supported on paid plans
 
 	// All with no fields filter (get all countries with all fields)
 	countries, err := client.All(restcountries.AllOptions{})
@@ -235,17 +238,17 @@ fmt.Println(countries[0].Region) // empty because this field was not requested
 The default timeout for the HTTP client is `0` (meaning no timeout). Use `SetTimeout()` to override the default timeout, using a [`time.Duration`](https://pkg.go.dev/time#Duration).
 
 ```go
-client := restcountries.New()
+client := restcountries.New("YOUR_API_KEY")
 client.SetTimeout(10 * time.Second) // 10 seconds
 ```
 
 ### `SetApiRoot()`
 
-The default API root is `https://restcountries.eu/rest/v2`. Use `SetApiRoot()` to override the root URL.
+The default API root is `https://api.countrylayer.com/v2`. Use `SetApiRoot()` to override the root URL. If you are on the free plan then you will need to override the root URL to use http instead of https, because the free plan does not support https.
 
 ```go
-client := restcountries.New()
-client.SetApiRoot("https://crosscode.co.uk/rest/v2")
+client := restcountries.New("YOUR_API_KEY")
+client.SetApiRoot("http://api.countrylayer.com/v2")
 ```
 
 

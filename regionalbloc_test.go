@@ -9,7 +9,7 @@ import (
 )
 
 func TestRegionalBlocSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"Chile", "capital": "Santiago"}]`)
@@ -31,7 +31,7 @@ func TestRegionalBlocSimple(t *testing.T) {
 }
 
 func TestRegionalBlocErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestRegionalBlocErrorUrl(t *testing.T) {
 		RegionalBloc: "PA",
 	})
 
-	wantErr := `Get "not%20a%20url/regionalbloc/PA?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/regionalbloc/PA?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestRegionalBlocErrorUrl(t *testing.T) {
 }
 
 func TestRegionalBloc(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             RegionalBlocOptions

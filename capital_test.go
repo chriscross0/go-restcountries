@@ -9,7 +9,7 @@ import (
 )
 
 func TestCapitalSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"France", "capital": "Paris"}]`)
@@ -31,7 +31,7 @@ func TestCapitalSimple(t *testing.T) {
 }
 
 func TestCapitalErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestCapitalErrorUrl(t *testing.T) {
 		Capital: "Paris",
 	})
 
-	wantErr := `Get "not%20a%20url/capital/Paris?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/capital/Paris?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestCapitalErrorUrl(t *testing.T) {
 }
 
 func TestCapital(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             CapitalOptions

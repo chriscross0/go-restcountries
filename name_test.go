@@ -9,7 +9,7 @@ import (
 )
 
 func TestNameSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"France", "capital": "Paris"}]`)
@@ -31,7 +31,7 @@ func TestNameSimple(t *testing.T) {
 }
 
 func TestNameErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestNameErrorUrl(t *testing.T) {
 		Name: "France",
 	})
 
-	wantErr := `Get "not%20a%20url/name/France?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/name/France?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestNameErrorUrl(t *testing.T) {
 }
 
 func TestName(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             NameOptions

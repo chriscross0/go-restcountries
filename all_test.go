@@ -10,7 +10,7 @@ import (
 )
 
 func TestAllSimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"TestName", "capital": "testCap"}, {"name":"TestName2", "capital": "testCap2"}]`)
@@ -32,13 +32,13 @@ func TestAllSimple(t *testing.T) {
 }
 
 func TestAllErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
 	_, gotErr := testClient.All(AllOptions{})
 
-	wantErr := `Get "not%20a%20url/all?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/all?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestAllErrorUrl(t *testing.T) {
 
 func TestAll(t *testing.T) {
 
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             AllOptions

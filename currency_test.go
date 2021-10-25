@@ -9,7 +9,7 @@ import (
 )
 
 func TestCurrencySimple(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `[{"name":"Antarctica", "capital": ""}]`)
@@ -31,7 +31,7 @@ func TestCurrencySimple(t *testing.T) {
 }
 
 func TestCurrencyErrorUrl(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	testClient.SetApiRoot("not a url")
 
@@ -39,7 +39,7 @@ func TestCurrencyErrorUrl(t *testing.T) {
 		Currency: "GBP",
 	})
 
-	wantErr := `Get "not%20a%20url/currency/GBP?fields=": unsupported protocol scheme ""`
+	wantErr := `Get "not%20a%20url/currency/GBP?access_key=TEST_API_KEY&fields=": unsupported protocol scheme ""`
 
 	if gotErr == nil || gotErr.Error() != wantErr {
 		t.Fatalf("got %s; want %s", gotErr, wantErr)
@@ -47,7 +47,7 @@ func TestCurrencyErrorUrl(t *testing.T) {
 }
 
 func TestCurrency(t *testing.T) {
-	testClient := New()
+	testClient := New("TEST_API_KEY")
 
 	tests := []struct {
 		input             CurrencyOptions
